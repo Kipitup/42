@@ -19,40 +19,30 @@ void		ft_display_line(char *s, int j)
 
 int		ft_read(int file_descriptor)
 {
-	char		buff[2];
+	char		buff[BUFF_SIZE];
 	static char	*str_total;
-	int		buffer;
 	int		i;
 	int		j;
-	int		secure;
 
-	secure = 0;
 	i = 0;
 	j = 0;
-	buffer = 1 * sizeof(char);
-	secure = read(file_descriptor, &buff, buffer);
-	buff[1] = '\0';
-	str_total = buff;
-	if (secure < 0)
-		return 0;
-	while (secure == buffer)
+	if (!(str_total = (char*)malloc(sizeof(char) * 1)))
+		return (0);
+	*str_total = '\0';
+	while (read(file_descriptor, &buff, BUFF_SIZE - 1))
 	{
+		buff[BUFF_SIZE - 1] = '\0';
 		str_total = ft_strjoin(str_total, buff);
-	//	printf("      %s\n", str_total);
-	//	printf("......%d\n", j);
 		while (str_total[j])
 		{
 			if (str_total[j] == '\n')
 			{
-				//printf("\ni = %d et j = %d\n", i, j);
 				ft_display_line(&(str_total[i]), (j - i));
+				printf("\n\033[34;01m%s\033[00m\n", str_total);
 				i = j;
-				//printf("\ni = %d et j = %d\n", i, j);
 			}
 			j++;
 		}
-		secure = read(file_descriptor, &buff, buffer);
-		buff[1] = '\0';
 	}
 	return (1);
 }

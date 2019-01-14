@@ -1,5 +1,5 @@
-oooooo
-o----o
-o----o
-o----o
-oooooo
+oo1ooo
+o-2--o
+o-3--o
+o-4--o
+oo5ooo

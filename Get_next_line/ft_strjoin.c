@@ -36,9 +36,9 @@ char	*ft_strnew(size_t size)
 
 char	*ft_strjoin(char const *s1, char const *s2)
 {
-	int		size1;
-	int		size2;
-	int		i;
+	int	size1;
+	int	size2;
+	int	i;
 	char	*str;
 
 	if (s1 == NULL || s2 == NULL)
