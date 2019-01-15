@@ -16,8 +16,7 @@ void		ft_display_line(char *s, int j)
 {
 	write(1, s, j);
 }
-
-int		get_next_line(const int fd, char **line)
+int		get_next_line(const int fd)
 {
 	char		buff[BUFF_SIZE + 1];
 	static char	*str_total;
@@ -39,11 +38,7 @@ int		get_next_line(const int fd, char **line)
 		{
 			if (str_total[j] == '\n')
 			{
-				if (!(*line = (char*)malloc(sizeof(char) * (j - i + 1))))
-					return (0);
-				*line = ft_strncpy(*line, &(str_total[i]), (j - i));
-				ft_display_line(*line, (j - i));
-				//printf("\033[34;01m%s\033[00m\n", *line);
+				ft_display_line(&(str_total[i]), (j - i));
 				i = j;
 			}
 			j++;
@@ -56,7 +51,6 @@ int		main(int ac, char **av)
 {
 	int	file_descriptor;
 	int	i;
-	char	*line;
 
 	if (ac < 2)
 		return 0;
@@ -67,7 +61,7 @@ int		main(int ac, char **av)
 		i = 0;
 		if (!(file_descriptor = open(av[1], O_RDONLY)))
 			return (0);
-		if (!get_next_line(file_descriptor, &line))
+		if (!get_next_line(file_descriptor))
 			return (0);
 		if (-1 == close(file_descriptor))
 			return 0;

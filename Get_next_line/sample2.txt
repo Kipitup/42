@@ -1,0 +1,3 @@
+1. Memory Allocation: Stack is used for static memory allocation and Heap for dynamic memory allocation, both stored in the computer's RAM .
+
+2. Variables: Variables allocated on the stack are stored directly to the memory and access to this memory is very fast, and it's allocation is dealt with when the program is compiled. When a function or a method calls another function which in turns calls another function etc., the execution of all those functions remains suspended until the very last function returns its value. Variables allocated on the heap have their memory allocated at run time and accessing this memory is a bit slower, but the heap size is only limited by the size of virtual memory.
