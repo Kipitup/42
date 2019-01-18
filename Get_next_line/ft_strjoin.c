@@ -19,19 +19,17 @@ void	ft_strclr(char *s)
 			*(s++) = 0;
 }
 
-char	*ft_strncpy(char *dest, const char *src, size_t n)
+void	*ft_memmove(void *dest, const void *src, size_t n)
 {
-	size_t	i;
+	size_t			i;
 
 	i = 0;
-	while (i < n)
-	{
-		dest[i] = src[i];
-		if (dest[i] == '\0')
-			while (++i < n)
-				dest[i] = '\0';
-		i++;
-	}
+	if ((char*)dest > (char*)src)
+		while (n-- > i)
+			((char*)dest)[n] = ((char*)src)[n];
+	else
+		while (i++ < n)
+			((char*)dest)[i - 1] = ((char*)src)[i - 1];
 	return (dest);
 }
 
