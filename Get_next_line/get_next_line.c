@@ -6,7 +6,7 @@
 /*   By: amartino <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/27 14:19:34 by amartino          #+#    #+#             */
-/*   Updated: 2019/01/29 16:05:32 by amartino         ###   ########.fr       */
+/*   Updated: 2019/01/30 22:25:38 by amartino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,7 @@ char	*ft_get_line(char *str_total, char **line, int j)
 		return (0);
 	*line = ft_memmove(*line, str_total, j);
 	(*line)[j] = '\0';
-	printf("\033[32;01m%s\033[00m\n", str_total);  //vert
-	str_total = str_total + j;
-	printf("\033[32;01m%sincrémenté\033[00m\n", str_total);  //vert
+	str_total = str_total + j + 1;
 	return (str_total);
 }
 
@@ -58,23 +56,31 @@ int		get_next_line(const int fd, char **line)
 	int				j;
 
 	i = 0;
-//	if (str_total && *str_total)
-//	{
-//		if (ft_parse_line(str_total, line))
-//			return (1);
-//	}
+	if (str_total && *str_total)
+	{
+		if ((j = ft_parse_line(str_total)) != 0)
+		{
+			str_total = ft_get_line(str_total, line, j);
+			return (1);
+		}
+		else if ((j = ft_strlen(str_total)) > 0)
+		{
+			str_total = ft_get_line(str_total, line, j);
+			return (1);
+		}
+	}
 	while ((ret = read(fd, &buff, BUFF_SIZE)))
 	{
+printf("\033[32;01m%zu\033[00m\n", ft_strlen(buff));  //vert
 		buff[BUFF_SIZE] = '\0';
+printf("\033[32;01m%s\033[00m\n", buff);  //vert
 		if (!str_total)
 			str_total = ft_strdup(buff);
 		else
 			str_total = ft_strjoin(str_total, buff);
-		printf("\033[34;01m%s\033[00m\n", buff);  //bleu
 		ft_strclr(buff);
-		while (str_total[i])  //semblerai que le i s'incremente mal en tout cas on ne rentre pas dans if
+		while (str_total[i])
 		{
-			printf("\033[31;01m%s\033[00m\n", str_total);   //rouge
 			if ((j = ft_parse_line(str_total)) != 0)
 			{
 				str_total = ft_get_line(str_total, line, j);
@@ -83,30 +89,33 @@ int		get_next_line(const int fd, char **line)
 			i++;
 		}
 	}
-	printf("\033[33;01m%d\033[00m\n", ret);  //jaune
-	buff[BUFF_SIZE] = '\0';
-	printf("\033[31;01m%s\033[00m\n", str_total);   //rouge
-	str_total = ft_strjoin(str_total, buff);
-	printf("\033[31;01m%s\033[00m\n", str_total);   //rouge
-	ft_strclr(buff);
-	if (*str_total && str_total)
+	if (str_total && *str_total && ret == 0)
 	{
-		printf("\033[33;01mEt la ?\033[00m\n");  //jaune
+		buff[BUFF_SIZE] = '\0';
+		str_total = ft_strjoin(str_total, buff);
+		ft_strclr(buff);
 		if ((j = ft_parse_line(str_total)) != 0)
 		{
-			printf("\033[33;01mEt la ?\033[00m\n");  //jaune
-			str_total = ft_get_line(str_total, line, i);
+			str_total = ft_get_line(str_total, line, j);
+			return (1);
+		}
+		else if ((j = ft_strlen(str_total)) > 0)
+		{
+			str_total = ft_get_line(str_total, line, j);
 			return (1);
 		}
 	}
-	if (ret == 0 || ret == -1)
-		return (ret);
 	return (0);
 }
 
-/*bon le probleme ma variable static. 
+/* je pense que les fichier qui n'ont pas de \n de se print pas sur la derniere ligne
+ * alors qu'il le faut 
  *
  *
+printf("\033[32;01m%s\033[00m\n", str_total);  //vert
+printf("\033[33;01m%d\033[00m\n", ret);  //jaune
+printf("\033[31;01m%s\033[00m\n", str_total);   //rouge
+printf("\033[34;01m%s\033[00m\n", buff);  //bleu
  *
  *
  * verifier si j'ai deja read quelque chose
