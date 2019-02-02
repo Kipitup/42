@@ -13,7 +13,7 @@
 #ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
 
-#define BUFF_SIZE 50
+# define BUFF_SIZE 1
 
 # include <fcntl.h>
 # include <unistd.h>
@@ -21,6 +21,7 @@
 # include <stdio.h>
 
 int 	get_next_line(const int fd, char **line);
+void	ft_bzero(void *s, size_t n);
 char	*ft_strdup(const char *src);
 char	*ft_strjoin(char const *s1, char const *s2);
 void	ft_strclr(char *s);

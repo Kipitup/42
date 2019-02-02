@@ -30,7 +30,7 @@ int		main(int ac, char **av)
 			return (0);
 		while ((i = get_next_line(fd, &line)) > 0)
 		{
-			printf("%s", line);
+			printf("line : %s", line);
 			printf("\n");
 		}
 		if (-1 == close(fd))

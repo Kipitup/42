@@ -21,17 +21,7 @@ int		ft_checks(const int fd)
 	return (0);
 }
 
-char	*ft_get_line(char *str_total, char **line, int j)
-{
-	if (!(*line = (char*)malloc(sizeof(char) * (j + 1))))
-		return (0);
-	*line = ft_memmove(*line, str_total, j);
-	(*line)[j] = '\0';
-	str_total = str_total + j + 1;
-	return (str_total);
-}
-
-int		ft_parse_line(char *str_total)
+int		ft_parse_line(char *str_total, char **line, int *ret)
 {
 	int		j;
 
@@ -39,9 +29,48 @@ int		ft_parse_line(char *str_total)
 	while (str_total[++j])
 	{
 		if (str_total[j] == '\n')
+		{
+			if (!(*line = (char*)malloc(sizeof(char) * (j + 1))))
+				return (0);
+			*line = ft_memmove(*line, str_total, j);
+			(*line)[j] = '\0';
 			return (j);
+		}
+	}
+	if (*ret == 0 && ((j = ft_strlen(str_total)) > 0))
+	{
+		if (!(*line = (char*)malloc(sizeof(char) * (j + 1))))
+			return (0);
+		*line = ft_memmove(*line, str_total, j);
+		(*line)[j] = '\0';
+		return (j - 1);
 	}
 	return (0);
+}
+
+char	*ft_read(int fd, char *str_total, int *ret)
+{
+	int				i;
+	char			buff[BUFF_SIZE + 1];
+
+	i = -1;
+	while (*ret > 0)
+	{
+		ft_bzero(buff, BUFF_SIZE + 1);
+		if ((*ret = read(fd, &buff, BUFF_SIZE)) == -1)
+			return (NULL);
+		buff[BUFF_SIZE] = '\0';
+		if (!str_total)
+			str_total = ft_strdup(buff);
+		else
+			str_total = ft_strjoin(str_total, buff);
+		while (str_total[++i])
+		{
+			if (str_total[i] == '\n')
+				return (str_total);
+		}
+	}
+	return (str_total);
 }
 
 int		get_next_line(const int fd, char **line)
@@ -49,81 +78,40 @@ int		get_next_line(const int fd, char **line)
 	if (ft_checks(fd) == -1)
 		return (-1);
 
-	char			buff[BUFF_SIZE + 1];
 	char static		*str_total;
-	int				ret;
-	int				i;
+	int				*ret;
+	int				tmp;
 	int				j;
 
-	i = 0;
+	tmp = 1;
+	ret = &tmp;
 	if (str_total && *str_total)
 	{
-		if ((j = ft_parse_line(str_total)) != 0)
-		{
-			str_total = ft_get_line(str_total, line, j);
+		if ((j = ft_parse_line(str_total, line, ret)) != 0)
+			str_total = str_total + j + 1;
+		if (j != 0)
 			return (1);
-		}
-		else if ((j = ft_strlen(str_total)) > 0)
-		{
-			str_total = ft_get_line(str_total, line, j);
-			return (1);
-		}
 	}
-	while ((ret = read(fd, &buff, BUFF_SIZE)))
-	{
-printf("\033[32;01m%zu\033[00m\n", ft_strlen(buff));  //vert
-		buff[BUFF_SIZE] = '\0';
-printf("\033[32;01m%s\033[00m\n", buff);  //vert
-		if (!str_total)
-			str_total = ft_strdup(buff);
-		else
-			str_total = ft_strjoin(str_total, buff);
-		ft_strclr(buff);
-		while (str_total[i])
-		{
-			if ((j = ft_parse_line(str_total)) != 0)
-			{
-				str_total = ft_get_line(str_total, line, j);
-				return (1);
-			}
-			i++;
-		}
-	}
-	if (str_total && *str_total && ret == 0)
-	{
-		buff[BUFF_SIZE] = '\0';
-		str_total = ft_strjoin(str_total, buff);
-		ft_strclr(buff);
-		if ((j = ft_parse_line(str_total)) != 0)
-		{
-			str_total = ft_get_line(str_total, line, j);
-			return (1);
-		}
-		else if ((j = ft_strlen(str_total)) > 0)
-		{
-			str_total = ft_get_line(str_total, line, j);
-			return (1);
-		}
-	}
+	if ((str_total = ft_read(fd, str_total, ret)) == NULL)
+		return (-1);
+	if ((j = ft_parse_line(str_total, line, ret)) != 0)
+		str_total = str_total + j + 1;
+	if (j != 0)
+		return (1);
 	return (0);
 }
 
-/* je pense que les fichier qui n'ont pas de \n de se print pas sur la derniere ligne
- * alors qu'il le faut 
- *
- *
-printf("\033[32;01m%s\033[00m\n", str_total);  //vert
+
+
+
+/*
+printf("\033[32;01mOK\033[00m\n");  //vert
 printf("\033[33;01m%d\033[00m\n", ret);  //jaune
 printf("\033[31;01m%s\033[00m\n", str_total);   //rouge
 printf("\033[34;01m%s\033[00m\n", buff);  //bleu
  *
- *
- * verifier si j'ai deja read quelque chose
- * if parse then get_line
- *
- * si rien de nouveau read again, je strjoin mon buffer vers str_total
- * if parse then get_line
- *
- * quand j'ai fini de read
- * if parse then get_line
+ *pb : dernier appelle de get_line, quand pas de \n a la fin il ne faut pas
+ avancer de str_total + j + 1. (pas le +1)
+
+ si pendant le read, il y a un probleme et que -1 est retourné => PB
 */
