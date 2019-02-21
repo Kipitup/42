@@ -6,19 +6,36 @@
 /*   By: amartino <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/27 14:19:34 by amartino          #+#    #+#             */
-/*   Updated: 2019/02/04 20:26:18 by amartino         ###   ########.fr       */
+/*   Updated: 2019/02/20 11:12:49 by amartino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-int		ft_checks(const int fd)
+t_gnl_list	*ft_checks(const int fd, t_gnl_list *root)
 {
+	if (root && (root->fd != fd))
+	{
+		root->prev = root;
+		root = root->next;
+	}
+	if (!root)
+	{
+		if (!(root = (t_gnl_list*)malloc(sizeof(t_gnl_list))))
+			return (root = NULL);
+		printf("\033[32;01m%p\033[00m\n", root->str_total);  //vert
+		root->next = NULL;
+		if (root->str_total)
+		{
+			printf("\033[32;01mOK\033[00m\n");  //vert
+			ft_memset(root->str_total, 0, 1);
+		}
+		printf("\033[32;01mOK\033[00m\n");  //vert
+		root->fd = fd;
+	}
 	if (fd < 0)
-		return (-1);
-//	if (fcntl(fd, F_GETFD) == -1)
-//		return (-1);
-	return (0);
+		return (root = NULL);
+	return (root);
 }
 
 int		ft_parse_line(t_gnl_list *alst, char **line)
@@ -53,7 +70,6 @@ char	*ft_read_file(t_gnl_list *alst)
 	int				i;
 	char			buff[BUFF_SIZE + 1];
 
-	i = 0;
 	while (*(alst->ret) > 0)
 	{
 		ft_bzero(buff, BUFF_SIZE + 1);
@@ -64,12 +80,13 @@ char	*ft_read_file(t_gnl_list *alst)
 			alst->str_total = ft_strdup(buff);
 		else
 			alst->str_total = ft_strjoin(alst->str_total, buff);
-		while ((alst->str_total)[i])
-		{
+		i = -1;
+		while ((alst->str_total)[++i])
 			if ((alst->str_total)[i] == '\n')
+			{
+				printf("\033[34;01m%s\033[00m\n", alst->str_total);  //bleu
 				return (alst->str_total);
-			i++;
-		}
+			}
 	}
 	return (alst->str_total);
 }
@@ -81,16 +98,9 @@ int		get_next_line(const int fd, char **line)
 	static t_gnl_list	*root;
 
 	tmp = 1;
-	if (ft_checks(fd) == -1)
+	if ((root = ft_checks(fd, root)) == NULL)
 		return (-1);
-	if (!root)
-	{
-		if (!(root = (t_gnl_list*)malloc(sizeof(t_gnl_list))))
-			return (0);
-		ft_strclr(root->str_total);
-	}
 	root->ret = &tmp;
-	root->fd = fd;
 	if (root->str_total && *(root->str_total))
 	{
 		if ((j = ft_parse_line(root, line)) != 0)

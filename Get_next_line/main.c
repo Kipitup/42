@@ -6,7 +6,7 @@
 /*   By: amartino <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/27 14:20:07 by amartino          #+#    #+#             */
-/*   Updated: 2019/01/30 22:25:43 by amartino         ###   ########.fr       */
+/*   Updated: 2019/02/20 11:13:04 by amartino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,24 +15,29 @@
 int		main(int ac, char **av)
 {
 	int		fd;
+	int		fd_2;
 	int		i;
-	//int		count_line;
 	char	*line;
+	char	*line_2;
 
-	if (ac < 2)
-		return 0;
-	else if (ac > 2)
-		return 0;
-	else
+	if (ac > 1)
 	{
 		i = 0;
 		if (!(fd = open(av[1], O_RDONLY)))
 			return (0);
-		while ((i = get_next_line(fd, &line)) > 0)
+		if (!(fd_2 = open(av[2], O_RDONLY)))
+			return (0);
+		i = get_next_line(fd_2, &line_2);
+		printf("line 2 : %s", line_2);
+		printf("\n");
+		while ((i = get_next_line(fd, &line)))
 		{
 			printf("line : %s", line);
 			printf("\n");
 		}
+	//	i = get_next_line(fd_2, &line_2);
+	//	printf("line 2 : %s", line_2);
+	//	printf("\n");
 		if (-1 == close(fd))
 			return 0;
 	}

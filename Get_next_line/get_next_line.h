@@ -6,7 +6,7 @@
 /*   By: amartino <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/27 14:19:50 by amartino          #+#    #+#             */
-/*   Updated: 2019/02/04 19:47:58 by amartino         ###   ########.fr       */
+/*   Updated: 2019/02/20 11:13:07 by amartino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,23 +19,18 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include <stdio.h>
+#include "Libft/libft.h"
 
 typedef struct s_gnl_list
 {
 	int					fd;
 	int					*ret;
 	char				*str_total;
+	struct s_gnl_list	*prev;
 	struct s_gnl_list	*next;
 }						t_gnl_list;
 
 
 int 	get_next_line(const int fd, char **line);
-void	ft_bzero(void *s, size_t n);
-char	*ft_strdup(const char *src);
-char	*ft_strjoin(char const *s1, char const *s2);
-void	ft_strclr(char *s);
-void	*ft_memmove(void *dest, const void *src, size_t n);
-size_t	ft_strlen(const char *s);
-int		ft_strcmp(const char *s1, const char *s2);
 
 #endif
