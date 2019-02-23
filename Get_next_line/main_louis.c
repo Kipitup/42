@@ -1,28 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main_test.c                                        :+:      :+:    :+:   */
+/*   main_louis.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: amartino <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/02/23 12:11:44 by amartino          #+#    #+#             */
-/*   Updated: 2019/02/23 17:55:33 by amartino         ###   ########.fr       */
+/*   Created: 2019/02/23 18:01:33 by amartino          #+#    #+#             */
+/*   Updated: 2019/02/23 18:02:17 by amartino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
-#include <fcntl.h>
-#include <unistd.h>
 #include "get_next_line.h"
+#include <fcntl.h>
+#include <stdio.h>
 
-int		main(void)
+int		main(int argc, char **argv)
 {
-	char	*line = NULL;
-	int		fd = open("./tests/gnl10.txt", O_RDONLY);
+	int		fd;
+	char	*line;
 
-	get_next_line(fd, &line);
-	ft_memdel((void**)&line);
-	close(fd);
-//	sleep(0);
-	return (0);
+	if (argc == 1)
+		fd = 0;
+	else if (argc == 2)
+		fd = open(argv[1], O_RDONLY);
+	else
+		return (2);
+	line = NULL;
+	while (get_next_line(fd, &line) == 1)
+	{
+		printf("%s\n", line);
+		ft_strdel(&line);
+	}
+	printf("\n\n");
+	if (argc == 2)
+		close(fd);
 }

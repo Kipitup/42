@@ -6,7 +6,7 @@
 /*   By: amartino <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/27 14:19:34 by amartino          #+#    #+#             */
-/*   Updated: 2019/02/23 12:36:53 by amartino         ###   ########.fr       */
+/*   Updated: 2019/02/23 19:51:31 by amartino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,7 @@ t_gnl_list	*ft_checks(const int fd, t_gnl_list *root)
 	{
 		if (!(root = (t_gnl_list*)malloc(sizeof(t_gnl_list))))
 			return (root = NULL);
-		root->next = NULL;
-		root->prev = NULL;
-		root->str_total = NULL;
+		ft_bzero(root, sizeof(*root));
 		root->fd = fd;
 	}
 	if (fd < 0)
@@ -82,11 +80,15 @@ int			ft_parse_line(t_gnl_list *alst, char **line)
 	return (0);
 }
 
+//pb quand je veux free temp
+
 char		*ft_read_file(t_gnl_list *alst)
 {
 	int				i;
+	char			*temp;
 	char			buff[BUFF_SIZE + 1];
 
+	temp = NULL;
 	while (*(alst->ret) > 0)
 	{
 		ft_bzero(buff, BUFF_SIZE + 1);
@@ -96,11 +98,21 @@ char		*ft_read_file(t_gnl_list *alst)
 		if (!(alst->str_total))
 			alst->str_total = ft_strdup(buff);
 		else
-			alst->str_total = ft_strjoin(alst->str_total, buff);
+		{
+			temp = alst->str_total;
+		//	printf("\033[33;01m%p\033[00m\n", alst->str_total);  //jaune
+			alst->str_total = ft_strjoin(temp, buff);
+		//	free(temp);
+		//	printf("\033[34;01m%p\033[00m\n", alst->str_total);  //jaune
+		}
 		i = -1;
 		while ((alst->str_total)[++i])
+		{
 			if ((alst->str_total)[i] == '\n')
+			{
 				return (alst->str_total);
+			}
+		}
 	}
 	return (alst->str_total);
 }
