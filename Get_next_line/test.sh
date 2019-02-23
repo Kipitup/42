@@ -1,4 +1,4 @@
-gcc -Wall -Werror -Wextra  get_next_line.c main.c Libft/ft_strclr.c Libft/ft_strjoin.c Libft/ft_strlen.c Libft/ft_memmove.c Libft/ft_strdup.c Libft/ft_bzero.c
+gcc -Wall -Werror -Wextra -fsanitize=address,undefined -g3 get_next_line.c main.c Libft/ft_strclr.c Libft/ft_strjoin.c Libft/ft_strlen.c Libft/ft_memmove.c Libft/ft_strdup.c Libft/ft_bzero.c
 
 echo "test simple_line :"
 echo ""

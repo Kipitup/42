@@ -1,19 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstadd.c                                        :+:      :+:    :+:   */
+/*   main_test.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: amartino <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/12/15 16:27:33 by amartino          #+#    #+#             */
-/*   Updated: 2019/02/23 09:47:21 by amartino         ###   ########.fr       */
+/*   Created: 2019/02/23 12:11:44 by amartino          #+#    #+#             */
+/*   Updated: 2019/02/23 12:30:42 by amartino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include <stdlib.h>
+#include <fcntl.h>
+#include <unistd.h>
+#include "get_next_line.h"
 
-void	ft_lstadd(t_list **alst, t_list *new_lst)
+int		main(void)
 {
-	new_lst->next = *alst;
-	*alst = new_lst;
+	char	*line = NULL;
+	int		fd = open("./tests/gnl10.txt", O_RDONLY);
+
+	get_next_line(fd, &line);
+	close(fd);
+	sleep(15);
+	return (0);
 }
