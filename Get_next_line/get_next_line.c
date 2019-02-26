@@ -6,7 +6,7 @@
 /*   By: amartino <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/27 14:19:34 by amartino          #+#    #+#             */
-/*   Updated: 2019/02/26 16:24:51 by amartino         ###   ########.fr       */
+/*   Updated: 2019/02/26 17:13:32 by amartino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,10 @@ int				ft_parse_line(t_gnl_list *alst, char **line)
 		*line = ft_strsub(alst->str_total, 0, tmp - alst->str_total);
 		tmp = ft_strdup(tmp + 1);
 		ft_strdel(&alst->str_total);
-		alst->str_total = tmp;
+		if (*tmp)
+			alst->str_total = tmp;
+		else
+			ft_strdel(&tmp);
 		return (1);
 	}
 	else if (alst->ret == 0 && ((ft_strlen(alst->str_total)) > 0))
@@ -88,7 +91,7 @@ static void		ft_read_file(t_gnl_list *alst)
 			alst->str_total = ft_strdup(buff);
 		else
 		{
-			tmp = ft_strdup(alst->str_total);
+			tmp = alst->str_total;
 			alst->str_total = ft_strjoin(tmp, buff);
 			ft_strdel(&tmp);
 		}

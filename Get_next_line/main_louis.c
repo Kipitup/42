@@ -6,7 +6,7 @@
 /*   By: amartino <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/23 18:01:33 by amartino          #+#    #+#             */
-/*   Updated: 2019/02/26 16:24:19 by amartino         ###   ########.fr       */
+/*   Updated: 2019/02/26 17:05:43 by amartino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,10 @@ int		main(int argc, char **argv)
 	while (get_next_line(fd, &line) > 0)
 	{
 		if (line)
-			printf("%s\n", line);
+			ft_putendl(line);
 		ft_strdel(&line);
 	}
+	ft_strdel(&line);
 	if (argc == 2)
 		close(fd);
 }
