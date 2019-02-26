@@ -6,7 +6,7 @@
 /*   By: amartino <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/28 15:39:40 by amartino          #+#    #+#             */
-/*   Updated: 2018/12/18 15:28:26 by amartino         ###   ########.fr       */
+/*   Updated: 2019/02/26 16:40:34 by amartino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,5 @@ char			**ft_strsplit(char const *s, char c)
 	count = ft_word_count(s, c);
 	if (!(tab = (char**)malloc(sizeof(char *) * (count + 1))))
 		return (NULL);
-	ft_fill(s, c, tab, count);
-	return (tab);
+	return (ft_fill(s, c, tab, count) ? tab : NULL);
 }
