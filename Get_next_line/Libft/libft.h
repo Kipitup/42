@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amartino <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: amartino <amartino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/10 12:28:12 by amartino          #+#    #+#             */
-/*   Updated: 2018/12/18 15:38:18 by amartino         ###   ########.fr       */
+/*   Updated: 2019/03/15 18:50:36 by amartino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ typedef struct	s_list
 
 int				ft_atoi(const char *src);
 void			ft_bzero(void *s, size_t n);
+float			ft_find_square(float nb);
 int				ft_isalnum(int c);
 int				ft_isalpha(int c);
 int				ft_isascii(int c);
@@ -33,6 +34,7 @@ int				ft_isdigit(int c);
 int				ft_isprint(int c);
 char			*ft_itoa(int n);
 void			ft_lstadd(t_list **alst, t_list *new_lst);
+t_list			*ft_lstadd_new(t_list *lst, size_t size);
 void			ft_lstiter(t_list *lst, void (*f)(t_list *elem));
 void			ft_lstdel(t_list **alst, void (*del)(void *, size_t));
 void			ft_lstdelone(t_list **alst, void (*del)(void*, size_t));

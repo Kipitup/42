@@ -1,4 +1,4 @@
-gcc -Wall -Werror -Wextra  get_next_line.c main.c Libft/libft.a
+gcc -Wall -Werror -Wextra  get_next_line.c main_louis.c libft/libft.a
 
 echo "test simple_line :"
 echo ""

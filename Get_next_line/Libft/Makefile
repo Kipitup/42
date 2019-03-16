@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: amartino <marvin@42.fr>                    +#+  +:+       +#+         #
+#    By: amartino <amartino@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/09 18:13:22 by amartino          #+#    #+#              #
-#    Updated: 2018/12/18 15:47:32 by amartino         ###   ########.fr        #
+#    Updated: 2019/03/16 21:28:25 by amartino         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,30 +28,57 @@ SRC = ft_atoi     ft_bzero      ft_isalnum  ft_isalpha    \
       ft_strsplit ft_strstr     ft_strsub   ft_strtrim    \
       ft_tolower  ft_toupper    ft_strupcase ft_strcapitalize \
       ft_is_prime ft_sort_integer_table ft_max ft_rot ft_intlen \
-      ft_countwords ft_count_lst ft_find_lsth
+      ft_countwords ft_count_lst ft_find_lsth ft_find_square ft_lstadd_new
 
 OBJ = $(patsubst %, %.o,$(SRC))
 
 CFLAGS = -Wall -Werror -Wextra
 
-INCLUDES =
+INCLUDES = -I.
+
+HEAD = ./libft.h
 
 CC = gcc
 
 all: $(NAME)
 
-$(OBJ):
-	$(CC) -c $(CFLAGS) $(patsubst %, %.c,$(SRC)) -I.
-
 $(NAME): $(OBJ)
-	ar rcs $(NAME) $(OBJ)
+	@ar rcs $(NAME) $(OBJ)
+
+%.o : %.c $(HEAD)
+	@$(CC) $(CFLAGS) -c $< $(INCLUDES)
+	@echo "$(CFLAGS) \t\t $(GREEN)$<$(END)"
 
 clean:
-	rm -f $(OBJ)
+	@rm -f $(OBJ)
+	@echo "$(YELLOW)OBJ$(END) \t\t were \t\t $(GREEN)clean$(END)"
 
 fclean: clean
-	rm -rf $(NAME)
+	@rm -rf $(NAME)
+	@echo "$(YELLOW)$(NAME)$(END) \t were \t\t $(GREEN)clean$(END)"
 
 re: fclean all
 
 .PHONY: clean fclean all re ft_isassci
+
+							#####################
+							#                   #
+							#        GIT        #
+							#                   #
+							#####################
+git:
+	@git add -f *
+	@git commit -m "$(COMMIT_MESSAGE)"
+	@git push
+							#####################
+							#                   #
+							#       COLOR       #
+							#                   #
+							#####################
+RED = \x1b[31m
+GREEN = \x1b[32m
+YELLOW = \x1b[33m
+BLUE = \x1b[34m
+MAGENTA = \x1b[35m
+CYAN = \x1b[36m
+END = \x1b[0m

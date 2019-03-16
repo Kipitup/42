@@ -1,38 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main_louis.c                                       :+:      :+:    :+:   */
+/*   ft_find_square.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: amartino <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/02/23 18:01:33 by amartino          #+#    #+#             */
-/*   Updated: 2019/03/07 12:03:29 by amartino         ###   ########.fr       */
+/*   Created: 2019/02/25 15:28:50 by amartino          #+#    #+#             */
+/*   Updated: 2019/02/27 14:56:05 by tvitoux          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
-#include <fcntl.h>
-#include <stdio.h>
+#include "libft.h"
 
-int		main(int argc, char **argv)
+float	ft_find_square(float nb)
 {
-	int		fd;
-	char	*line;
+	int		len;
+	int		limit;
+	float	guess;
 
-	if (argc == 1)
-		fd = 0;
-	else if (argc == 2)
-		fd = open(argv[1], O_RDONLY);
-	else
-		return (2);
-	line = NULL;
-	while (get_next_line(fd, &line) > 0)
-	{
-		if (line)
-			ft_putendl(line);
-		ft_strdel(&line);
-	}
-	ft_strdel(&line);
-	if (argc == 2)
-		close(fd);
+	guess = 1;
+	limit = 20;
+	len = ft_intlen(nb) - 1;
+	while (--len > 0)
+		guess *= 10;
+	while (--limit > 0)
+		guess = ((nb / guess) + guess) / 2;
+	return (guess);
 }

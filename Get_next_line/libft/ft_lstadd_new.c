@@ -1,24 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_bzero.c                                         :+:      :+:    :+:   */
+/*   ft_lstadd_new.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: amartino <amartino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/11/10 14:59:48 by amartino          #+#    #+#             */
-/*   Updated: 2019/03/15 18:57:12 by amartino         ###   ########.fr       */
+/*   Created: 2019/03/15 18:29:52 by amartino          #+#    #+#             */
+/*   Updated: 2019/03/16 22:23:08 by amartino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_bzero(void *s, size_t n)
+t_list		*ft_lstadd_new(t_list *lst, size_t size)
 {
-	size_t	i;
-	char	*tab;
+	t_list	*tmp;
+	t_list	*new_lst;
 
-	tab = (char*)s;
-	i = 0;
-	while (i < n)
-		tab[i++] = '\0';
+	if (!lst)
+		return (NULL);
+	tmp = lst->next;
+	if (!(new_lst = ft_memalloc(sizeof(size))))
+		return (NULL);
+	lst->next = new_lst;
+	lst->next->next = tmp;
+	return (lst);
 }
