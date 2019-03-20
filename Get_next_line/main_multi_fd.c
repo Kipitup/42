@@ -6,7 +6,7 @@
 /*   By: amartino <amartino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/16 17:08:27 by amartino          #+#    #+#             */
-/*   Updated: 2019/03/16 18:53:20 by amartino         ###   ########.fr       */
+/*   Updated: 2019/03/19 16:00:38 by amartino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ int				main(void)
 		}
 		ft_putstr("c\n");
 		ret1 = get_next_line(fd1, &line1);
-printf("\033[35;01m%s\033[00m\n", line1);
+// printf("\033[35;01m%s\033[00m\n", line1);
 		if (ret1 != 1 || strcmp(line1, "part of the line, unless the end of the file is reached.") != 0)
 		{
 			printf("-> must have returned '1' and read line #4 \"part of the line, unless the end of the file is reached.\" from file %s\n", filename1);
@@ -152,39 +152,39 @@ printf("\033[35;01m%s\033[00m\n", line1);
 			printf("-> must have returned '1' and read line #8 \"expand the buffer as needed, as if via realloc().  If linep points to a NULL\" from file %s\n", filename1);
 			errors++;
 		}
-		ft_putstr("oxxxo\n");
-		ft_putstr("o---o\n");
+		// ft_putstr("oxxxo\n");
+		// ft_putstr("o---o\n");
 		ret1 = get_next_line(fd1, &line1);
 		if (ret1 != 1 || strcmp(line1, "pointer, a new buffer will be allocated.  In either case, *linep and") != 0)
 		{
 			printf("-> must have returned '1' and read line #9 \"pointer, a new buffer will be allocated.  In either case, *linep and\" from file %s\n", filename1);
 			errors++;
 		}
-		ft_putstr("oxxxo\n");
-		ft_putstr("o---o\n");
+		// ft_putstr("oxxxo\n");
+		// ft_putstr("o---o\n");
 		ret1 = get_next_line(fd1, &line1);
 		if (ret1 != 1 || strcmp(line1, "*linecapp will be up-dated accordingly.") != 0)
 		{
 			printf("-> must have returned '1' and read line #10 \"*linecapp will be up-dated accordingly.\" from file %s\n", filename1);
 			errors++;
 		}
-		ft_putstr("oxxxo\n");
-		ft_putstr("o---o\n");
+		// ft_putstr("oxxxo\n");
+		// ft_putstr("o---o\n");
 		ret2 = get_next_line(fd2, &line2);
 		if (ret2 != 1 || strcmp(line2, "The city is a center for cultural events since there are many students. ") != 0)
 		{
 			printf("-> must have returned '1' and read line #5 \"The city is a center for cultural events since there are many students. \" from file %s\n", filename2);
 			errors++;
 		}
-		ft_putstr("oxxxo\n");
-		ft_putstr("o---o\n");
+		// ft_putstr("oxxxo\n");
+		// ft_putstr("o---o\n");
 		ret2 = get_next_line(fd2, &line2);
 		if (ret2 != 1 || strcmp(line2, "Montpellier has two large concerts venues: Le Zenith Sud (7.000 seats) and L'Arena (14.000 seats).") != 0)
 		{
 			printf("-> must have returned '1' and read line #6 \"Montpellier has two large concerts venues: Le Zenith Sud (7.000 seats) and L'Arena (14.000 seats).\" from file %s\n", filename1);
 			errors++;
 		}
-		ft_putstr("oxxxo\n");
+		// ft_putstr("oxxxo\n");
 
 		ret1 = get_next_line(fd1, &line1);
 		if (ret1 != 0)

@@ -6,25 +6,25 @@
 /*   By: amartino <amartino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/27 14:19:34 by amartino          #+#    #+#             */
-/*   Updated: 2019/03/16 23:15:16 by amartino         ###   ########.fr       */
+/*   Updated: 2019/03/19 17:39:14 by amartino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-t_gnl_list		*ft_lstadd_new_gnl(t_gnl_list *lst, size_t size)
+static int	ft_lstadd_new_gnl(t_gnl_list *lst)
 {
 	t_gnl_list	*tmp;
 	t_gnl_list	*new_lst;
 
 	if (!lst)
-		return (NULL);
+		return (0);
 	tmp = lst->next;
-	if (!(new_lst = ft_memalloc(sizeof(size))))
-		return (NULL);
+	if (!(new_lst = (t_gnl_list *)ft_memalloc(sizeof(t_gnl_list))))
+		return (0);
 	lst->next = new_lst;
 	lst->next->next = tmp;
-	return (lst);
+	return (1);
 }
 
 static t_gnl_list	*ft_checks(const int fd, t_gnl_list *root)
@@ -32,35 +32,15 @@ static t_gnl_list	*ft_checks(const int fd, t_gnl_list *root)
 	t_gnl_list	*tmp;
 
 	tmp = root;
-	// if (root && root->fd)
-	// 	printf("\033[34;01m%d\033[00m\n", root->fd);
-	// if (root && root->next && root->next->fd)
-	// 	printf("\033[35;01m%d\033[00m\n", root->next->fd);
-	// if (root && root->next && root->next->next && root->next->next->fd)
-	// 	printf("\033[36;01m%d\033[00m\n", root->next->next->fd);
-	// if (root && root->next && root->next->next && root->next->next->next && root->next->next->next->fd)
-	// 	printf("\033[36;01m%d\033[00m\n", root->next->next->next->fd);
 	if (tmp && (tmp->fd != fd))
 	{
 		tmp = tmp->next;
-		ft_putstr("0\n");
-		printf("\033[34;01m%d\033[00m\n", tmp->fd); //SEG FAULT
-		ft_putstr("0\n");
-		printf("\033[33;01m%d\033[00m\n", root->fd);
-		printf("\033[34;01m%d\033[00m\n", fd);
 		while (tmp && (tmp->fd != root->fd))
 			{
-				// printf("\033[32;01m%d\033[00m\n", tmp->fd);
-				// printf("\033[33;01m%d\033[00m\n", root->fd);
-				// printf("\033[32;01m%d\033[00m\n", fd);
-				// ft_putstr("b\n");
-				ft_putstr("1\n");
 				if (tmp && (tmp->fd == fd))
 					return (tmp);
-				// ft_putstr("c\n");
 				tmp = tmp->next;
 			}
-		ft_putstr("d\n");
 	}
 	if (!tmp)
 	{
@@ -71,15 +51,10 @@ static t_gnl_list	*ft_checks(const int fd, t_gnl_list *root)
 	}
 	else if (tmp->fd != fd)
 	{
-		// printf("\033[34;01m%d\033[00m\n", tmp->fd);
-		if (!(tmp = ft_lstadd_new_gnl(tmp, (sizeof(t_gnl_list)))))
+		if (!(ft_lstadd_new_gnl(tmp)))
 			return (NULL);
 		tmp = tmp->next;
 		tmp->fd = fd;
-		printf("\033[32;01m[%d]\033[00m\n", tmp->fd);
-		printf("\033[35;01m[%d]\033[00m\n", tmp->next->fd);
-		printf("\033[36;01m[%d]\033[00m\n", tmp->next->next->fd);
-		printf("\033[36;01m[%d]\033[00m\n", tmp->next->next->next->fd);
 		tmp->str_total = NULL;
 	}
 	return (tmp);
@@ -118,6 +93,7 @@ static void			ft_read_file(t_gnl_list *alst)
 	tmp = NULL;
 	while (alst->ret > 0)
 	{
+	//	ft_bzero(void *s, size_t n)
 		if ((alst->ret = read(alst->fd, &buff, BUFF_SIZE)) == -1)
 			return ;
 		buff[alst->ret] = '\0';
@@ -140,8 +116,6 @@ int					get_next_line(const int fd, char **line)
 
 	if (fd < 0)
 		return (-1);
-	if (root)
-		printf("\033[32;01m%d\033[00m\n", root->fd);
 	if ((root = ft_checks(fd, root)) == NULL)
 		return (-1);
 	root->ret = 1;

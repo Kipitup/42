@@ -1,32 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   ft_lstadd_new.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: amartino <amartino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/01/27 14:19:50 by amartino          #+#    #+#             */
-/*   Updated: 2019/03/19 17:35:32 by amartino         ###   ########.fr       */
+/*   Created: 2019/03/15 18:29:52 by amartino          #+#    #+#             */
+/*   Updated: 2019/03/16 22:23:08 by amartino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
+#include "libft.h"
 
-# define BUFF_SIZE 10
-
-# include <fcntl.h>
-# include <stdio.h>
-# include "libft/libft.h"
-
-typedef struct	s_gnl_list
+t_list		*ft_lstadd_new(t_list *lst, size_t size)
 {
-	struct s_gnl_list	*next;
-	char				*str_total;
-	int					fd;
-	int					ret;
-}				t_gnl_list;
+	t_list	*tmp;
+	t_list	*new_lst;
 
-int				get_next_line(const int fd, char **line);
-
-#endif
+	if (!lst)
+		return (NULL);
+	tmp = lst->next;
+	if (!(new_lst = ft_memalloc(sizeof(size))))
+		return (NULL);
+	lst->next = new_lst;
+	lst->next->next = tmp;
+	return (lst);
+}
