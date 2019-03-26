@@ -6,7 +6,7 @@
 #    By: amartino <amartino@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/09 18:13:22 by amartino          #+#    #+#              #
-#    Updated: 2019/03/16 21:28:25 by amartino         ###   ########.fr        #
+#    Updated: 2019/03/26 15:43:00 by amartino         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,7 +28,8 @@ SRC = ft_atoi     ft_bzero      ft_isalnum  ft_isalpha    \
       ft_strsplit ft_strstr     ft_strsub   ft_strtrim    \
       ft_tolower  ft_toupper    ft_strupcase ft_strcapitalize \
       ft_is_prime ft_sort_integer_table ft_max ft_rot ft_intlen \
-      ft_countwords ft_count_lst ft_find_lsth ft_find_square ft_lstadd_new
+      ft_countwords ft_count_lst ft_find_lsth ft_find_square ft_lstadd_new \
+	  ft_memchr_last
 
 OBJ = $(patsubst %, %.o,$(SRC))
 

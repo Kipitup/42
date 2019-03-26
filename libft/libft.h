@@ -6,7 +6,7 @@
 /*   By: amartino <amartino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/10 12:28:12 by amartino          #+#    #+#             */
-/*   Updated: 2019/03/15 18:50:36 by amartino         ###   ########.fr       */
+/*   Updated: 2019/03/26 15:42:44 by amartino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ t_list			*ft_lstmap(t_list *lst, t_list *(*f)(t_list *elem));
 t_list			*ft_lstnew(void const *content, size_t content_size);
 void			*ft_memalloc(size_t size);
 void			*ft_memchr(const void *s, int c, size_t n);
+void			*ft_memchr_last(const void *s, int c, size_t n);
 int				ft_memcmp(const void *s1, const void *s2, size_t n);
 void			*ft_memccpy(void *dst, const void *src, int c, size_t n);
 void			*ft_memcpy(void *dest, const void *src, size_t n);
