@@ -6,25 +6,35 @@
 /*   By: amartino <amartino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/27 14:19:34 by amartino          #+#    #+#             */
-/*   Updated: 2019/03/19 17:39:14 by amartino         ###   ########.fr       */
+/*   Updated: 2019/03/25 17:44:10 by amartino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-static int	ft_lstadd_new_gnl(t_gnl_list *lst)
+static t_gnl_list	*ft_lstadd_new_gnl(t_gnl_list *lst, int fd)
 {
 	t_gnl_list	*tmp;
 	t_gnl_list	*new_lst;
 
-	if (!lst)
-		return (0);
-	tmp = lst->next;
+	if (lst && lst->fd == fd)
+		return (lst);
 	if (!(new_lst = (t_gnl_list *)ft_memalloc(sizeof(t_gnl_list))))
-		return (0);
+		return (NULL);
+	if (!lst)
+	{
+		lst = new_lst;
+		lst->fd = fd;
+		lst->next = lst;
+		return (lst);
+	}
+	tmp = lst->next;
 	lst->next = new_lst;
 	lst->next->next = tmp;
-	return (1);
+	lst = lst->next;
+	lst->fd = fd;
+	lst->str_total = NULL;
+	return (lst);
 }
 
 static t_gnl_list	*ft_checks(const int fd, t_gnl_list *root)
@@ -36,27 +46,14 @@ static t_gnl_list	*ft_checks(const int fd, t_gnl_list *root)
 	{
 		tmp = tmp->next;
 		while (tmp && (tmp->fd != root->fd))
-			{
-				if (tmp && (tmp->fd == fd))
-					return (tmp);
-				tmp = tmp->next;
-			}
+		{
+			if (tmp && (tmp->fd == fd))
+				return (tmp);
+			tmp = tmp->next;
+		}
 	}
-	if (!tmp)
-	{
-		if (!(tmp = ft_memalloc(sizeof(t_gnl_list))))
-			return (NULL);
-		tmp->fd = fd;
-		tmp->next = tmp;
-	}
-	else if (tmp->fd != fd)
-	{
-		if (!(ft_lstadd_new_gnl(tmp)))
-			return (NULL);
-		tmp = tmp->next;
-		tmp->fd = fd;
-		tmp->str_total = NULL;
-	}
+	if (!(tmp = ft_lstadd_new_gnl(tmp, fd)))
+		return (NULL);
 	return (tmp);
 }
 
@@ -93,7 +90,6 @@ static void			ft_read_file(t_gnl_list *alst)
 	tmp = NULL;
 	while (alst->ret > 0)
 	{
-	//	ft_bzero(void *s, size_t n)
 		if ((alst->ret = read(alst->fd, &buff, BUFF_SIZE)) == -1)
 			return ;
 		buff[alst->ret] = '\0';
@@ -130,61 +126,3 @@ int					get_next_line(const int fd, char **line)
 	ft_strdel(&root->str_total);
 	return (0);
 }
-
-/*
-**printf("\033[32;01mOK\033[00m\n");  //vert
-**printf("\033[33;01m%d\033[00m\n", root->ret);  //jaune
-**printf("\033[31;01m%s\033[00m\n", root->str_total);   //rouge
-**printf("\033[34;01m%s\033[00m\n", buff);  //bleu
-*/
-
-// printf("\033[35;01m%p\033[00m\n", (void*)root);
-// printf("\033[35;01m%p\033[00m\n", (void*)tmp);
-// if (root && root->fd)
-// 	printf("\033[34;01m%d\033[00m\n", root->fd);
-// if (root && root->next && root->next->fd)
-// 	printf("\033[35;01m%d\033[00m\n", root->next->fd);
-// if (root && root->next && root->next->next && root->next->next->fd)
-// 	printf("\033[36;01m%d\033[00m\n", root->next->next->fd);
-// if (root && root->next && root->next->next && root->next->next->next && root->next->next->next->fd)
-// 	printf("\033[36;01m%d\033[00m\n", root->next->next->next->fd);
-
-
-/*
-** static t_gnl_list	*ft_checks(const int fd, t_gnl_list *root)
-** {
-** 	t_gnl_list	*tmp;
-** 	t_gnl_list	*tmp2;
-**
-** 	tmp = root;
-** 	if (tmp && (tmp->fd != fd))
-** 	{
-** 		tmp = tmp->next;
-** 		while (tmp && (tmp->fd != root->fd))
-** 			{
-** 				if (tmp && (tmp->fd == fd))
-** 					return (tmp);
-** 				tmp = tmp->next;
-** 			}
-** 	}
-** 	if (!tmp)
-** 	{
-** 		if (!(tmp = ft_memalloc(sizeof(t_gnl_list))))
-** 			return (NULL);
-** 		tmp->fd = fd;
-** 		tmp->next = tmp;
-** 	}
-** 	else if (tmp->fd != fd)
-** 	{
-** 		root = tmp->next;
-** 		if (!(tmp2 = ft_memalloc(sizeof(t_gnl_list))))
-** 			return (NULL);
-** 		tmp->next = tmp2;
-** 		tmp->next->fd = fd;
-** 		tmp->next->str_total = NULL;
-** 		tmp->next->next = root;
-** 		tmp = tmp->next;
-** 	}
-** 	return (tmp);
-** }
-*/

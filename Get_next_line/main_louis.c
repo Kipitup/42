@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_louis.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amartino <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: amartino <amartino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/23 18:01:33 by amartino          #+#    #+#             */
-/*   Updated: 2019/03/19 17:34:41 by amartino         ###   ########.fr       */
+/*   Updated: 2019/03/25 16:44:01 by amartino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,5 @@ int		main(int argc, char **argv)
 	}
 	close (fd);
 	ft_strdel(&line);
-	while (1);
 	return (0);
 }

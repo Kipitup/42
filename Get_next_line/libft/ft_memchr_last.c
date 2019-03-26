@@ -1,30 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   ft_memchr_last.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: amartino <amartino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/01/27 14:19:50 by amartino          #+#    #+#             */
-/*   Updated: 2019/03/25 17:27:59 by amartino         ###   ########.fr       */
+/*   Created: 2019/03/26 15:41:26 by amartino          #+#    #+#             */
+/*   Updated: 2019/03/26 15:42:03 by amartino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
+#include "libft.h"
 
-# define BUFF_SIZE 10
-
-# include "libft/libft.h"
-
-typedef struct	s_gnl_list
+void			*ft_memchr_last(const void *s, int c, size_t n)
 {
-	struct s_gnl_list	*next;
-	char				*str_total;
-	int					fd;
-	int					ret;
-}				t_gnl_list;
+	unsigned char	*s_u;
+	unsigned char	*tmp;
 
-int				get_next_line(const int fd, char **line);
-
-#endif
+	s_u = (unsigned char*)s;
+	tmp = NULL;
+	while (n > 0)
+	{
+		if (*s_u == (unsigned char)c)
+			tmp = s_u;
+		s_u++;
+		n--;
+	}
+	return (tmp ? tmp : NULL);
+}
