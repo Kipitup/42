@@ -6,7 +6,7 @@
 /*   By: amartino <amartino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/23 18:01:33 by amartino          #+#    #+#             */
-/*   Updated: 2019/03/25 16:44:01 by amartino         ###   ########.fr       */
+/*   Updated: 2019/04/03 22:17:16 by amartino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,7 @@ int		main(int argc, char **argv)
 	fd = open(argv[1], O_RDONLY);
 	while (get_next_line(fd, &line) > 0)
 	{
-		if (line)
-			ft_putendl(line);
+		ft_putendl(line);
 		ft_strdel(&line);
 	}
 	close (fd);

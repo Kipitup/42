@@ -6,10 +6,11 @@
 /*   By: amartino <amartino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/27 14:20:07 by amartino          #+#    #+#             */
-/*   Updated: 2019/03/15 17:40:41 by amartino         ###   ########.fr       */
+/*   Updated: 2019/04/03 22:19:31 by amartino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <fcntl.h>
 #include "get_next_line.h"
 
 int		main(int ac, char **av)
