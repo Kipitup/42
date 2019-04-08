@@ -6,12 +6,11 @@
 /*   By: amartino <amartino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/27 14:19:34 by amartino          #+#    #+#             */
-/*   Updated: 2019/04/03 23:32:13 by amartino         ###   ########.fr       */
+/*   Updated: 2019/04/08 11:51:40 by amartino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-#include <stdio.h>
 
 static t_gnl_list	*ft_lstadd_new_gnl(t_gnl_list *lst, int fd)
 {
@@ -63,13 +62,11 @@ static int			ft_parse_line(t_gnl_list *alst, char **line)
 	char	*tmp;
 
 	tmp = NULL;
-	printf("\033[32;01mBON\033[00m\n");
 	if (alst->str_total && (tmp = ft_strchr(alst->str_total, '\n')))
 	{
 		*line = ft_strsub(alst->str_total, 0, tmp - alst->str_total);
 		tmp = ft_strdup(tmp + 1);
 		ft_strdel(&alst->str_total);
-	printf("\033[32;01mEUH\033[00m\n");
 		if (*tmp)
 			alst->str_total = tmp;
 		else
@@ -117,22 +114,15 @@ int					get_next_line(const int fd, char **line)
 		return (-1);
 	if ((root = ft_checks(fd, root)) == NULL)
 		return (-1);
-	printf("\033[34;01m0\033[00m\n");
 	root->ret = 1;
 	if (root->str_total && *(root->str_total))
 		if (ft_parse_line(root, line))
-		{
-			printf("\033[34;01m1\033[00m\n");
 			return (1);
-		}
-	printf("\033[34;01m2\033[00m\n");
 	ft_read_file(root);
-	printf("\033[34;01m3\033[00m\n");
 	if (root->ret == -1)
 		return (-1);
 	if (ft_parse_line(root, line))
 		return (1);
-	printf("\033[34;01m4\033[00m\n");
 	ft_strdel(&root->str_total);
 	return (0);
 }
